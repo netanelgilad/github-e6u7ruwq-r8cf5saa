@@ -1,18 +1,19 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 import TodosStore from "../components/TodosStore.astro";
 import { TodoList } from "../components/TodoList";
 import { PendingTasksCounter } from "../components/PendingTasksCounter";
-
-const myArray = [1,2,3];
 ---
 
-{ myArray.map((index) => (
-	<TodosStore>
-		{storeId => (
-			<TodoList client:load storeId={storeId} />
-			<PendingTasksCounter storeId={storeId} />
-		)}
-	</TodosStore>
-))}
+<Layout>
+  <TodosStore>
+    {
+      (store, storeId) => (
+        <>
+          <TodoList client:load store={store} storeId={storeId} />
+          {/* <PendingTasksCounter client:load store={store} /> */}
+        </>
+      )
+    }
+  </TodosStore>
+</Layout>

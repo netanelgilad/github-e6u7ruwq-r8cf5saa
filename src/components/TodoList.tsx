@@ -1,18 +1,52 @@
-import { getStore } from '../stores/StoreManager';
+import { getStore } from "../stores/StoreManager";
+import { useStore } from "@nanostores/react";
+import * as React from "react";
 
-export function TodoList(props: { storeId: string }) {
+export function TodoList(props: { store: any; storeId: string }) {
+  console.log({ props });
   const theStore = getStore(props.storeId);
+  const { todos } = props.store;
+  // const todos = useStore(theStore.todos);
+  const [input, setInput] = React.useState("");
+
+  const handleAdd = () => {
+    if (input.trim() && theStore) {
+      theStore.addTodo(input.trim());
+      setInput("");
+    }
+  };
+
+  const handleRemove = (id) => {
+    if (theStore) {
+      theStore.removeTodo(id);
+    }
+  };
+
   return (
     <div>
-      Todo List {props.storeId}
-      <button
-        onClick={() => {
-          console.log('button clicked');
-          theStore.hello();
+      <h3>Todo List {props.storeId}</h3>
+      <input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Add a todo"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleAdd();
         }}
-      >
-        Hello
-      </button>
+      />
+      <button onClick={handleAdd}>Add</button>
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            {todo.text}
+            <button
+              onClick={() => handleRemove(todo.id)}
+              style={{ marginLeft: 8 }}
+            >
+              Remove
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

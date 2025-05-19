@@ -1,20 +1,31 @@
 ---
+import { initTodosStore } from "../stores/TodosStore";
 const storeId = crypto.randomUUID();
-const toRender = Astro.slots.render('default', [storeId]);
+const initialTodosStore = initTodosStore(storeId);
+const toRender = Astro.slots.render("default", [initialTodosStore, storeId]);
 ---
 
-<cool-store data-id={storeId} />
+<cool-store
+  data-id={storeId}
+  data-initial-store={JSON.stringify(initialTodosStore)}></cool-store>
 <script>
   import { addStore } from "../stores/StoreManager";
-  import { createTodosStore } from "../stores/TodosStore";
-  
-    // Define the behaviour for our new type of HTML element.
+  import { hydrateTodosStore } from "../stores/TodosStore";
+
+  // Define the behaviour for our new type of HTML element.
   class CoolStore extends HTMLElement {
     connectedCallback() {
-      addStore(this.dataset.id, createTodosStore(this.dataset.id));
+      const hydratedStore = hydrateTodosStore(
+        this.dataset.id!,
+        JSON.parse(this.dataset.initialStore!)
+      );
+
+      console.log({ hydratedStore });
+
+      addStore(this.dataset.id!, hydratedStore);
     }
   }
 
-  customElements.define('cool-store', CoolStore);
+  customElements.define("cool-store", CoolStore);
 </script>
 <Fragment set:html={toRender} />
