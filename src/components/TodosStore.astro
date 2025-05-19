@@ -5,6 +5,7 @@ const toRender = Astro.slots.render('default', [storeId]);
 
 <cool-store data-id={storeId} />
 <script>
+/*
   import { addStore } from "../stores/StoreManager";
   import { createTodosStore } from "../stores/TodosStore";
   
@@ -16,5 +17,6 @@ const toRender = Astro.slots.render('default', [storeId]);
   }
 
   customElements.define('cool-store', CoolStore);
+  */
 </script>
 <Fragment set:html={toRender} />
