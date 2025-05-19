@@ -5,8 +5,18 @@ export type Todo = {
   text: string;
 };
 
-export function createTodosStore(id: string) {
-  const todos = atom<Todo[]>([]);
+export function initTodosStore(id: string) {
+  return {
+    todos: [
+      {
+        id: "1",
+      },
+    ],
+  };
+}
+
+export function hydrateTodosStore(id: string, data: { todos: Todo[] }) {
+  const todos = atom<Todo[]>(data.todos);
   const totalCount = computed(todos, (list) => list.length);
 
   const addTodo = (text: string) => {

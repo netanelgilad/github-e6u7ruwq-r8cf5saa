@@ -8,10 +8,10 @@ import { PendingTasksCounter } from "../components/PendingTasksCounter";
 <Layout>
   <TodosStore>
     {
-      (storeId: string) => (
+      (store, storeId) => (
         <>
-          <TodoList client:load storeId={storeId} />
-          <PendingTasksCounter client:load storeId={storeId} />
+          <TodoList client:load store={store} storeId={storeId} />
+          {/* <PendingTasksCounter client:load store={store} /> */}
         </>
       )
     }

@@ -2,9 +2,11 @@ import { getStore } from "../stores/StoreManager";
 import { useStore } from "@nanostores/react";
 import * as React from "react";
 
-export function TodoList(props: { storeId: string }) {
+export function TodoList(props: { store: any; storeId: string }) {
+  console.log({ props });
   const theStore = getStore(props.storeId);
-  const todos = theStore ? useStore(theStore.todos) : [];
+  const { todos } = props.store;
+  // const todos = useStore(theStore.todos);
   const [input, setInput] = React.useState("");
 
   const handleAdd = () => {

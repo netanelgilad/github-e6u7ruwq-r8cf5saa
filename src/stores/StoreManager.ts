@@ -1,8 +1,9 @@
+const storeMap = new Map<string, unknown>();
+
 export function addStore(storeId: string, something: unknown) {
-  globalThis['stores'] = globalThis['stores'] ?? {};
-  globalThis['stores'][storeId] = something;
+  storeMap.set(storeId, something);
 }
 
 export function getStore(storeId: string) {
-  return globalThis['stores']?.[storeId];
+  return storeMap.get(storeId);
 }
