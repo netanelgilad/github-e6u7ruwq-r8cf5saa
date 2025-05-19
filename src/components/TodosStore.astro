@@ -1,0 +1,20 @@
+---
+const storeId = crypto.randomUUID();
+const toRender = Astro.slots.render('default', [storeId]);
+---
+
+<cool-store data-id={storeId} />
+<script>
+  import { addStore } from "../stores/StoreManager";
+  import { createTodosStore } from "../stores/TodosStore";
+  
+    // Define the behaviour for our new type of HTML element.
+  class CoolStore extends HTMLElement {
+    connectedCallback() {
+      addStore(this.dataset.id, createTodosStore(this.dataset.id));
+    }
+  }
+
+  customElements.define('cool-store', CoolStore);
+</script>
+<Fragment set:html={toRender} />
