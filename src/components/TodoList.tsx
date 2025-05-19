@@ -12,13 +12,19 @@ function useStore(store) {
 
 export function TodoList(props: { storeId: string }) {
   const theStore = getStore(props.storeId);
-  const todos = useStore(theStore.todos);
+  const todos = theStore ? useStore(theStore.todos) : [];
   const [input, setInput] = React.useState("");
 
   const handleAdd = () => {
-    if (input.trim()) {
+    if (input.trim() && theStore) {
       theStore.addTodo(input.trim());
       setInput("");
+    }
+  };
+
+  const handleRemove = (id) => {
+    if (theStore) {
+      theStore.removeTodo(id);
     }
   };
 
@@ -39,7 +45,7 @@ export function TodoList(props: { storeId: string }) {
           <li key={todo.id}>
             {todo.text}
             <button
-              onClick={() => theStore.removeTodo(todo.id)}
+              onClick={() => handleRemove(todo.id)}
               style={{ marginLeft: 8 }}
             >
               Remove
