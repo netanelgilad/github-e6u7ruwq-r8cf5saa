@@ -1,8 +1,7 @@
 export function addStore(storeId: string, something: unknown) {
-  globalThis['stores'] = globalThis['stores'] ?? {};
-  globalThis['stores'][storeId] = something;
+  (globalThis as any).stores = (globalThis as any).stores ?? {};
+  (globalThis as any).stores[storeId] = something;
 }
-
 export function getStore(storeId: string) {
-  return globalThis['stores']?.[storeId];
+  return (globalThis as any).stores?.[storeId];
 }

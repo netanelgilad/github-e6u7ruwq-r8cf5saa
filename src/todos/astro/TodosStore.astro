@@ -1,0 +1,27 @@
+---
+import { createTodosStore, getInitialTodos } from "../state";
+
+const initialTodos = await getInitialTodos();
+const storeId = crypto.randomUUID();
+createTodosStore(storeId, initialTodos);
+
+const toRender = Astro.slots.render("default", [storeId]);
+---
+
+<cool-store data-id={storeId} data-initial-todos={JSON.stringify(initialTodos)}
+></cool-store>
+<script>
+  import { createTodosStore } from "../state";
+
+  class CoolStore extends HTMLElement {
+    connectedCallback() {
+        createTodosStore(
+          this.dataset.id!,
+          JSON.parse(this.dataset.initialTodos!),
+        );
+    }
+  }
+
+  customElements.define("cool-store", CoolStore);
+</script>
+<Fragment set:html={toRender} />
