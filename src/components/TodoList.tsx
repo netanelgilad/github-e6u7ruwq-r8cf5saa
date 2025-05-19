@@ -1,14 +1,6 @@
 import { getStore } from "../stores/StoreManager";
+import { useStore } from "@nanostores/react";
 import * as React from "react";
-
-// Minimal custom hook to subscribe to nanostores atom in React
-function useStore(store) {
-  const [value, setValue] = React.useState(store.get());
-  React.useEffect(() => {
-    return store.subscribe(setValue);
-  }, [store]);
-  return value;
-}
 
 export function TodoList(props: { storeId: string }) {
   const theStore = getStore(props.storeId);
