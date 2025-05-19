@@ -1,6 +1,6 @@
-import { getStore } from '../stores/StoreManager';
+import { getStore } from '../../stores/StoreManager';
 import { useStore } from '@nanostores/react'
-import type { Todo } from '../stores/TodosStore';
+import type { Todo } from '../state';
 
 function generateId() {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
